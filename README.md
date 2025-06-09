@@ -37,10 +37,10 @@ Before running the code, update the dataset paths in `src/Feature_engineering/Pr
 
 ```python
 # Example in src/ProjectPaths.py
-# Change this to the folder containing the downloaded CSV files
+# Change this to the folder containing the the 3 sites
 folder_path = "/path/to/your/dataset/folder"
 
-# Optionally, configure where to save trained models and outputs
+# configure where to save the preprocessed datasets
 output_folder_paths = "/path/to/output/folder"
 ```
 
