@@ -32,8 +32,7 @@ Download the dataset and note its local directory path; you will need it in the 
    ```
 
 ## Configuration
-
-Before running the code, update the dataset paths in `src/Feature_engineering/ProjectPaths.py`. Open the file and set the following variables to the directory where you downloaded the dataset:
+the preprocessed Dataset is already available in `Dataset` directory. but if you wish to preprocess or analyse it from scratch , Before running the code, update the dataset paths in `src/Feature_engineering/ProjectPaths.py`. Open the file and set the following variables to the directory where you downloaded the dataset:
 
 ```python
 # Example in src/ProjectPaths.py
@@ -48,7 +47,7 @@ Make sure these paths are correct and accessible.
 
 ## Usage
 
-After configuration, you can run experiments using the `Indirect Approach.ipynb` script. For example, to train and evaluate models:
+After configuration, you can run experiments using the `Indirect Approach.ipynb` notebook to train diffrent models and save them in `Best Models` directory. the `main.py` file can also be used to test the trained models on some of your chosen solar pannels . 
 
 
 ## Report

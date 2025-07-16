@@ -4,7 +4,7 @@ import numpy as np
 from os.path import join
 import pandas as pd
 from sklearn.metrics import  r2_score
-
+import time
 def r2_adj(r2,n,p):
     return 1-((1-r2)*((n-1)/(n-p-1)))
 def pretty_csv(datasets,iv_path):
@@ -61,7 +61,9 @@ def remove_invalid_rows(df,threshold=50):
     return df[(df["DNI_unc"]>=0) & (df["GHI_unc"]>=0) & (df["DHI_unc"]>=0)]
 
 def evaluate(model,x_train,y_train,x_test,y_test):
+    start = time.perf_counter()
     y_test_pred=model.predict(x_test)
+    end = time.perf_counter()
     y_train_pred=model.predict(x_train)
     if(y_test_pred.ndim == 1):
         y_test_pred=y_test_pred.reshape(-1,1)
@@ -77,9 +79,10 @@ def evaluate(model,x_train,y_train,x_test,y_test):
         
         print(f"Test R2 : {r2_test} | Train R2 : {r2_train}")
         print(f"Test ADJ-R2 : {r2_adj_te} | Train ADJ-R2 : {r2_adj_tr}")
+        print(f"predcition time : {end-start} seconds")
         if(col=="Vmp (V)"):
             vmp_test_r2=r2_test
             vmp_train_r2=r2_train
             adj_vmp_train_r2=r2_adj_tr
             adj_vmp_test_r2=r2_adj_te
-    return (vmp_test_r2,vmp_train_r2,adj_vmp_train_r2,adj_vmp_test_r2)
+    return (vmp_test_r2,vmp_train_r2,adj_vmp_train_r2,adj_vmp_test_r2,end-start)
