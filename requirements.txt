@@ -6,3 +6,7 @@ tqdm
 scikit-learn
 xgboost
 statsmodels
+pvlib
+pynasapower
+torch
+torchvision
