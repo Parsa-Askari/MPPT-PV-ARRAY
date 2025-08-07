@@ -4,7 +4,7 @@ Classification Models
 """
 import torch
 import torch.nn as nn
-
+from torchvision import models
 class BaseClassifier(nn.Module):
     def __init__(self,encoder,classifier,train_encoder):
         super().__init__()

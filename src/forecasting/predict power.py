@@ -110,8 +110,8 @@ for city in cords:
     df.to_csv(os.path.join(output_dir,f"{city}.csv"),index=False)
 # Build a system 
 selected_pannel="aSiMicro03036" # Choose a model from the module_params_custom_material.csv file
-modual_infos=pd.read_csv("./simulation prams/module_params_custom_material.csv",index_col="Model")
-module_params = modual_infos.loc[selected_pannel]
+module_infos=pd.read_csv("./simulation prams/module_params_custom_material.csv",index_col="Model")
+module_params = module_infos.loc[selected_pannel]
 pdc0=module_params.loc["Parallel_Strings"]*module_params.loc["Isco"]*module_params.loc["Voco"]
 module_params = {
     'gamma_pdc': -0.0038,

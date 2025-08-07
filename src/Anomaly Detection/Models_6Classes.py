@@ -1,28 +1,9 @@
-class ResnetModel(nn.Module):
-    def __init__(self,latent_dim=128,classification_mode=False):
-        super(ResnetModel,self).__init__()
-        self.classification_mode=classification_mode
-        resnet=models.resnet50(weights="DEFAULT")
-        self.model=nn.Sequential(*list(resnet.children())[:-2])
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.flatten=nn.Flatten(1)
-        self.projection_head=nn.Sequential(
-            nn.Linear(2048, 2048),
-            nn.ReLU(inplace=True),
-            nn.Linear(2048, latent_dim)
-        )
-        # self.model=resnet
-    def set_classification_mode(self,mode=True):
-        self.classification_mode=mode
-    def forward(self,x):
-        z=self.model(x)
-        z=self.avgpool(z)
-        z=self.flatten(z)
-        if(not self.classification_mode):
-            z=self.projection_head(z)
-        return z
-        # return z
-
+import torch
+import torch.nn as nn
+from torchvision import models
+"""
+Classification Models
+"""
 class BaseClassifier(nn.Module):
     def __init__(self,encoder,classifier,train_encoder):
         super().__init__()
@@ -52,10 +33,37 @@ class Classifier(BaseClassifier):
             nn.BatchNorm1d(input_dim),
             nn.ReLU(inplace=True),
             nn.Dropout(0.2),
-            nn.Linear(input_dim, 12)
+            nn.Linear(input_dim, class_count)
 
         )
         super().__init__(encoder,classifier,train_encoder)
         if(not self.train_encoder):
             for p in self.encoder.parameters():
                 p.requires_grad = False
+"""
+Encoder Models
+"""       
+class ResnetModel(nn.Module):
+    def __init__(self,latent_dim=128,classification_mode=False):
+        super(ResnetModel,self).__init__()
+        self.classification_mode=classification_mode
+        resnet=models.resnet50(weights="DEFAULT")
+        self.model=nn.Sequential(*list(resnet.children())[:-2])
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.flatten=nn.Flatten(1)
+        self.projection_head=nn.Sequential(
+            nn.Linear(2048, 2048),
+            nn.ReLU(inplace=True),
+            nn.Linear(2048, latent_dim)
+        )
+        # self.model=resnet
+    def set_classification_mode(self,mode=True):
+        self.classification_mode=mode
+    def forward(self,x):
+        z=self.model(x)
+        z=self.avgpool(z)
+        z=self.flatten(z)
+        if(not self.classification_mode):
+            z=self.projection_head(z)
+        return z
+        # return z
